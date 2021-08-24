@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import {firebaseInit, auth} from './conf/firebaseConf'
-import firebase from 'firebase/app'
-import { messageRef, orderByDate} from './firestore/collections'
+import { auth} from './conf/firebaseConf'
+import { orderByDate, textMessage} from './firestore/collections'
 
 import {signInWithGoogle, signOutWithGoogle} from './firebase/auth'
 import {useAuthState} from 'react-firebase-hooks/auth'
@@ -52,14 +51,16 @@ function WriteMessage(){
  
   const[formValue, setFormValue]=useState('')
 
+
+  
+
   const sendMessage= async(e)=>{
     e.preventDefault();
-    const {uid} = auth.currentUser;
-    await messageRef.add({
-      text: formValue,
-      date: firebase.firestore.FieldValue.serverTimestamp(), uid
-    })
-  }
+    textMessage(formValue)
+  
+     
+  } 
+
 
   return(
     <form onSubmit={sendMessage}>
