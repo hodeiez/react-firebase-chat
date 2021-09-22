@@ -1,90 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
+
 import { auth} from './conf/firebaseConf'
-import { orderByDate, textMessage} from './firestore/collections'
-
-import {signInWithGoogle, signOutWithGoogle} from './firebase/auth'
+import { SignIn } from './components/signInOut';
 import {useAuthState} from 'react-firebase-hooks/auth'
-import {useCollectionData} from 'react-firebase-hooks/firestore'
-
-
-
-function SignIn(){
-  
-  return(
-  
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
-   
-    )
-}
-function SignOut(){
-
-  return (
-    <button onClick={()=>signOutWithGoogle()}>Sign out</button>
-  )
-}
-
-
-function MainPage(){
-
-const [messages] =useCollectionData(orderByDate, {idField:'id'})
-
-return(
-    <>
-      <h1>mainPage</h1>
-    <div>
-{messages && messages.map(txt =><TextMessage key={txt.id} message={txt}></TextMessage>)}
-    </div>
-    <WriteMessage/>
-    <SignOut />
-    
-    </>
-  )
-}
-function TextMessage({message}){
-  const{text, uid}=message
-  return <p><strong>{text}</strong> with id: {uid}</p>
-}
-
-
-function WriteMessage(){
+import {MainPage} from './components/chat'
  
-  const[formValue, setFormValue]=useState('')
-
-
-  
-
-  const sendMessage= async(e)=>{
-    e.preventDefault();
-    textMessage(formValue)
-  
-     
-  } 
-
-
-  return(
-    <form onSubmit={sendMessage}>
-    <input value={formValue}  onChange={(e)=>setFormValue(e.target.value)} type="text"/>
-    <button type="submit">S</button>
-    </form>
-  )
-}
-
-
 
 function App() {
   //fireabase auth
   const [user]=useAuthState(auth)
 
-
   return (
     <div className="App">
-
-
-
       <header className="App-header">
+
      <div>
-        {user?<MainPage/>:<SignIn/>}
+        {user?<MainPage auth={auth}/>:<SignIn />}
       </div>
  
  
