@@ -5,6 +5,7 @@ export const Profile=({auth})=>{
       <p>{auth.currentUser.email}</p>
       <img src={auth.currentUser.photoURL} alt="profile pic"/>
       <p>{auth.currentUser.phoneNumber}</p>
+      
       </>
     )
   }
