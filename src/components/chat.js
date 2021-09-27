@@ -1,13 +1,15 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { Profile } from "./profile";
+
 import { orderByDate, textMessage } from "./../firestore/collections";
-import { SignOut } from "./signInOut";
+
 import React, { useState, useRef, useEffect } from "react";
 
 //for messages
-import { Layout, Comment, Image, Row, Col, Avatar } from "antd";
-
-const { Content } = Layout;
+import { Comment, Avatar } from "antd";
+//styles for messages
+const commentsStyle={borderRadius:"2%",padding:"1%",marginBottom:"2%",}
+  const currentAuthStyle={...commentsStyle,backgroundColor:'DarkGrey',marginLeft:"50%"}
+  const otherAuthStyle={...commentsStyle,backgroundColor:'Violet',width:"50%"}
 
 export function MainPage({ auth }) {
   const [messages] = useCollectionData(orderByDate, { idField: "id" });
@@ -30,6 +32,7 @@ export function MainPage({ auth }) {
 
   return (
     <>
+  
     <h1>Simple chat</h1>
       <div className="scrollable-container">
         
@@ -43,8 +46,8 @@ export function MainPage({ auth }) {
         <div ref={bottomRef} />
       </div>
       <WriteMessage />
-      <SignOut />
-      <Profile auth={auth} />
+    
+ 
     </>
   );
 }
@@ -52,16 +55,14 @@ export function MainPage({ auth }) {
 //TODO: REFRACTOR ALL STYLING MESS
 export function TextMessage({ message, auth }) {
   const { text, uid, displayName, photoURL } = message;
-  const commentsStyle={borderRadius:"5%",padding:"1%",marginBottom:"2%",wordWrap: "break-word"}
-  const currentAuthStyle={...commentsStyle,backgroundColor:'DarkGrey',marginLeft:"50%"}
-  const otherAuthStyle={...commentsStyle,backgroundColor:'Black',width:"50%"}
+  
+
   return auth.currentUser.uid === uid ? (
-    <Comment style={currentAuthStyle}
+    <Comment  style={currentAuthStyle}
       author={<h5 style={{  display:"inline-block"}}>{displayName}</h5>}
       avatar={
         <Avatar
-          style={{ display:"inline-block",
-          float: "left"}}
+          
           src={
             <img
               src={auth.currentUser.photoURL}
@@ -76,13 +77,12 @@ export function TextMessage({ message, auth }) {
       content={text}
     ></Comment>
   ) : (
-    <Content>
+   
       <Comment style={otherAuthStyle}
-        author={<h5 style={{  display:"inline-block"}}>{displayName}</h5>}
+        author={<h5 >{displayName}</h5>}
         avatar={
           <Avatar
-          style={{ display:"inline-block",
-          float: "left"}}
+          
             src={<img src={photoURL} className="avatar-rounded" alt="avatar" />}
             preview={false}
             alt="avatar"
@@ -90,7 +90,7 @@ export function TextMessage({ message, auth }) {
         }
         content={text}
       ></Comment>
-    </Content>
+   
   );
 }
 

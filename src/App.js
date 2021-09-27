@@ -5,6 +5,7 @@ import { auth} from './conf/firebaseConf'
 import { SignIn } from './components/signInOut';
 import {useAuthState} from 'react-firebase-hooks/auth'
 import {MainPage} from './components/chat'
+import TopMenu  from './components/TopMenu'
  
 
 function App() {
@@ -12,16 +13,16 @@ function App() {
   const [user]=useAuthState(auth)
 
   return (
-    <div className="App">
-      <header className="App-header">
-
-     <div>
-        {user?<MainPage auth={auth}/>:<SignIn />}
+    <>
+   
+     <div class="">
+       {/*}<TopMenu auth={auth}/>
+    {user?<MainPage auth={auth}/>:<SignIn />} {*/}
+    {user?<TopMenu auth={auth}/>:<SignIn />}
       </div>
+ </>
  
- 
-      </header>
-    </div>
+     
   );
 }
 

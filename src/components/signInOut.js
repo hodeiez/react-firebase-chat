@@ -11,6 +11,6 @@ export function SignIn(){
  export function SignOut(){
   
     return (
-      <button onClick={()=>signOutWithGoogle()}>Sign out</button>
+      <a onClick={()=>signOutWithGoogle()}>Sign out</a>
     )
   }
